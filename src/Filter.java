@@ -22,4 +22,8 @@ public class Filter {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return "Type: " + getType() + " Qualifier: " + getQualifier() + " Value: " + getValue();
+    }
 }

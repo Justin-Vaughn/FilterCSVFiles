@@ -10,10 +10,9 @@ public class Main {
         try {
             // read the CSV file
             List<Row> rows = readCSVFile("LegoSets.csv");
-            System.out.println(rows);
 
             // take the filtering instructions
-
+            List<Filter> filter = filterInstructions();
 
             // filter the CSV file
 
@@ -51,12 +50,21 @@ public class Main {
         return rows;
     }
 
-    public List<Filter> filterInstructions() {
+    public static List<Filter> filterInstructions() {
         Scanner scanner = new Scanner(System.in);
+        List<Filter> filter = new ArrayList<>();
 
-        // ask user for filter instructions
-        // show the list of filters available
-        // keep going until they run out of filter options or they "q"
+        System.out.println("Filter Instructions:");
+        String[] userInput = scanner.nextLine().split(",");
+        System.out.println(Arrays.toString(userInput));
+
+        // loops to turn the user input array into a List of Filter objects
+        for (String userFilters : userInput) {
+            String[] currentFilterArray = userFilters.split(" ");
+            Filter currentFilter = new Filter(currentFilterArray[0], currentFilterArray[1], currentFilterArray[2]);
+            filter.add(currentFilter);
+        }
+        return filter;
     }
 
 }
