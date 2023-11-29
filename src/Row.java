@@ -6,7 +6,7 @@ public class Row {
 
     public Row(String[] header, String[] currentRow) {
         for (int i = 0; i < header.length; i++) {
-            rowInfo.put(header[i], currentRow[i]);
+            rowInfo.put(header[i].toLowerCase(), currentRow[i].trim());
         }
     }
 

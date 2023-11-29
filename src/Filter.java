@@ -1,8 +1,8 @@
 public class Filter {
 
-    private final String type;
-    private final String qualifier;
-    private final String value;
+    private final String type; // THEME
+    private final String qualifier; // ==
+    private final String value; // CHRISTMAS
 
     public Filter(String type, String qualifier, String value) {
         this.type = type;

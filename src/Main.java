@@ -6,17 +6,23 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    private static String[] CSVHeader;
+
     public static void main(String[] args) {
         try {
             // read the CSV file
-            List<Row> rows = readCSVFile("LegoSets.csv");
+            List<Row> rows = readCSVFile("WorldStats.csv");
 
             // take the filtering instructions
-            List<Filter> filter = filterInstructions();
+            List<Filter> filter = filterInstructions(rows.get(0));
 
             // filter the CSV file
+            List<Row> newRows = filterCSV(rows, filter);
 
             // write the new CSV
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,6 +41,7 @@ public class Main {
 
             if (isFirstLine) {
                 firstLine = row;
+                CSVHeader = row;
                 isFirstLine = false;
                 continue;
             }
@@ -50,13 +57,17 @@ public class Main {
         return rows;
     }
 
-    public static List<Filter> filterInstructions() {
+    public static List<Filter> filterInstructions(Row header) {
         Scanner scanner = new Scanner(System.in);
         List<Filter> filter = new ArrayList<>();
 
-        System.out.println("Filter Instructions:");
+        System.out.print("Filter Instructions [");
+        for (int i = 0; i < CSVHeader.length; i++) {
+            System.out.print(i != CSVHeader.length - 1 ? CSVHeader[i] + ", " : CSVHeader[i]
+                    + "]\n(Example: 'parts > 2000,year < 2015'): ");
+        }
+
         String[] userInput = scanner.nextLine().split(",");
-        System.out.println(Arrays.toString(userInput));
 
         // loops to turn the user input array into a List of Filter objects
         for (String userFilters : userInput) {
@@ -64,7 +75,57 @@ public class Main {
             Filter currentFilter = new Filter(currentFilterArray[0], currentFilterArray[1], currentFilterArray[2]);
             filter.add(currentFilter);
         }
+
         return filter;
+    }
+
+    public static List<Row> filterCSV(List<Row> rows, List<Filter> filters) {
+        // base case filters are <= 0
+        if (filters.isEmpty()) return rows;
+
+        // selects and removes the first filter and creates a new list for the new rows that pass the filter
+        Filter currentFilter = filters.removeLast();
+        List<Row> filteredRows = new ArrayList<>();
+
+        // test all the rows to see if they meet the filter requirements
+        for (Row row : rows) {
+            String rowVal = row.get(currentFilter.getType().toLowerCase());
+            String filterVal = currentFilter.getValue();
+
+            if (comparison(rowVal, filterVal, currentFilter.getQualifier())) filteredRows.add(row);
+        }
+
+        // return the new rows list with filters-1 (from the one that was used)
+        return filterCSV(filteredRows, filters);
+    }
+
+    private static boolean comparison(String s1, String s2, String operator) {
+        try {
+            return switch (operator) {
+                case "==" -> isFloat(s1) && isFloat(s2)
+                        ? Float.parseFloat(s1) == Float.parseFloat(s2)
+                        : s1.equalsIgnoreCase(s2);
+                case "!=" -> isFloat(s1) && isFloat(s2)
+                        ? Float.parseFloat(s1) != Float.parseFloat(s2)
+                        : !(s1.equalsIgnoreCase(s2));
+                case "<" -> Float.parseFloat(s1) < Float.parseFloat(s2);
+                case ">" -> Float.parseFloat(s1) > Float.parseFloat(s2);
+                case "<=" -> Float.parseFloat(s1) <= Float.parseFloat(s2);
+                case ">=" -> Float.parseFloat(s1) >= Float.parseFloat(s2);
+                default -> throw new IllegalArgumentException("Invalid Operator: " + operator);
+            };
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Invalid filter options with operator: " + s1 + " " + operator + " " + s2);
+        }
+    }
+
+    private static boolean isFloat(String s) {
+        try {
+            Float.parseFloat(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
 }
