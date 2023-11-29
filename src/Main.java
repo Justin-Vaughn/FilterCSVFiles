@@ -1,7 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,16 +13,16 @@ public class Main {
     public static void main(String[] args) {
         try {
             // read the CSV file
-            List<Row> rows = readCSVFile("WorldStats.csv");
+            List<Row> rows = readCSVFile("LegoSets.csv");
 
             // take the filtering instructions
-            List<Filter> filter = filterInstructions(rows.get(0));
+            List<Filter> filter = filterInstructions();
 
             // filter the CSV file
             List<Row> newRows = filterCSV(rows, filter);
 
             // write the new CSV
-
+            writeCSVFile("output.csv", newRows);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,7 +58,7 @@ public class Main {
         return rows;
     }
 
-    public static List<Filter> filterInstructions(Row header) {
+    public static List<Filter> filterInstructions() {
         Scanner scanner = new Scanner(System.in);
         List<Filter> filter = new ArrayList<>();
 
@@ -128,4 +129,23 @@ public class Main {
         return true;
     }
 
+    public static void writeCSVFile(String path, List<Row> rows) throws IOException {
+        FileWriter file = new FileWriter(path, false);
+
+        // write CSV header
+        for (int i = 0; i < CSVHeader.length; i++) {
+            file.write(i != CSVHeader.length - 1 ? CSVHeader[i] + ", " : CSVHeader[i]);
+        }
+
+        // write rows
+        for (Row row : rows) {
+            for (int j = 0; j < CSVHeader.length; j++) {
+
+                file.write( j != CSVHeader.length - 1 ? row.get(CSVHeader[j]) + "," : row.get(CSVHeader[j]) + "\n");
+
+            }
+        }
+
+        file.close();
+    }
 }
