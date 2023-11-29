@@ -1,4 +1,4 @@
-Rank,Country,Average IQ,Continent,Literacy Rate,Nobel Prices,HDI,Mean years of schooling,GNI,Population
+rank,country,average_IQ,continent,literacy_rate,nobel_prices,HDI,years_of_schooling,GNI,population
 1,Japan,106.48,Asia,0.99,29,0.925,13.4,42274,123294513
 2,Taiwan,106.47,Asia,0.96,4,,,,10143543
 3,Singapore,105.89,Asia,0.97,0,0.939,11.9,90919,6014723

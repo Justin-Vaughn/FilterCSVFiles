@@ -9,7 +9,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             // read the CSV file
-            List<Row> rows = readCSVFile("WorldStats.csv");
+            List<Row> rows = readCSVFile("LegoSets.csv");
+            System.out.println(rows);
 
             // take the filtering instructions
 
@@ -49,4 +50,13 @@ public class Main {
         }
         return rows;
     }
+
+    public List<Filter> filterInstructions() {
+        Scanner scanner = new Scanner(System.in);
+
+        // ask user for filter instructions
+        // show the list of filters available
+        // keep going until they run out of filter options or they "q"
+    }
+
 }
