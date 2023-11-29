@@ -19,8 +19,8 @@ public class Row {
         StringBuilder sb = new StringBuilder();
 
         for (String key : rowInfo.keySet()) {
-            sb.append("<").append(key).append(", ").append(rowInfo.get(key)).append(">\n");
+            sb.append(key).append(": ").append(rowInfo.get(key)).append(" ");
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 }
