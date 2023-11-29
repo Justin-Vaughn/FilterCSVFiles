@@ -9,4 +9,18 @@ public class Row {
             rowInfo.put(header[i], currentRow[i]);
         }
     }
+
+    public String get(String key) {
+        return rowInfo.get(key);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (String key : rowInfo.keySet()) {
+            sb.append("<").append(key).append(", ").append(rowInfo.get(key)).append(">\n");
+        }
+        return sb.toString();
+    }
 }
