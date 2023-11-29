@@ -7,7 +7,7 @@ rank,country,average_IQ,continent,literacy_rate,nobel_prices,HDI,years_of_school
 6,South Korea,102.35,Asia,0.98,0,0.925,12.5,44501,51784059
 7,Belarus,101.6,Europe,1,2,0.808,12.1,18849,9498238
 8,Finland,101.2,Europe,1,5,0.94,12.9,49452,5545475
-9,Liechtenstein,101.07,Europe,1,0,0.935,12.5,146830,"	39315"
+9,Liechtenstein,101.07,Europe,1,0,0.935,12.5,146830,39315
 10,Germany,100.74,Europe,0.99,111,0.942,14.1,54534,83294633
 11,Netherlands,100.74,Europe,0.99,22,0.941,12.6,55979,17618299
 12,Estonia,100.72,Europe,1,0,0.89,13.5,38048,1322766
@@ -131,7 +131,7 @@ rank,country,average_IQ,continent,literacy_rate,nobel_prices,HDI,years_of_school
 130,Senegal,77.37,Africa,0.56,0,0.511,2.9,3344,17763163
 131,Comoros,77.07,Africa,0.78,0,0.558,5.1,3142,852.075
 132,Madagascar,76.79,Africa,0.65,0,0.501,5.1,1484,30325732
-133,British Virgin Islands,76.69,Central America,0.98,0,,,, 32291
+133,British Virgin Islands,76.69,Central America,0.98,0,,,,32291
 134,Bolivia,76.53,South America,0.95,0,0.692,9.8,8111,12388571
 135,Uganda,76.42,Africa,0.74,0,0.525,5.7,2181,48582334
 136,Saudi Arabia,76.36,Asia,0.95,0,0.875,11.3,46112,36947025
