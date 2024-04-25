@@ -1,3 +1,5 @@
+package dev.justin;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static String[] CSVHeader;
+    private static String[] csvHeader;
 
     public static void main(String[] args) {
         try {
@@ -42,7 +44,7 @@ public class Main {
 
             if (isFirstLine) {
                 firstLine = row;
-                CSVHeader = row;
+                csvHeader = row;
                 isFirstLine = false;
                 continue;
             }
@@ -63,16 +65,17 @@ public class Main {
         List<Filter> filter = new ArrayList<>();
 
         System.out.print("Filter Instructions [");
-        for (int i = 0; i < CSVHeader.length; i++) {
-            System.out.print(i != CSVHeader.length - 1 ? CSVHeader[i] + ", " : CSVHeader[i]
+        for (int i = 0; i < csvHeader.length; i++) {
+            System.out.print(i != csvHeader.length - 1 ? csvHeader[i] + ", " : csvHeader[i]
                     + "]\n(Example: 'parts > 2000,year < 2015'): ");
         }
 
         String[] userInput = scanner.nextLine().split(",");
 
-        // loops to turn the user input array into a List of Filter objects
+        // loops to turn the user input array into a List of dev.justin.Filter objects
         for (String userFilters : userInput) {
             String[] currentFilterArray = userFilters.split(" ");
+            // type, qualifier, value
             Filter currentFilter = new Filter(currentFilterArray[0], currentFilterArray[1], currentFilterArray[2]);
             filter.add(currentFilter);
         }
@@ -84,16 +87,18 @@ public class Main {
         // base case filters are <= 0
         if (filters.isEmpty()) return rows;
 
-        // selects and removes the first filter and creates a new list for the new rows that pass the filter
-        Filter currentFilter = filters.removeLast();
+        // removes the last filter and creates a new list for the new rows that pass the filter
+        Filter currentFilter = filters.remove(filters.size() - 1);
         List<Row> filteredRows = new ArrayList<>();
 
         // test all the rows to see if they meet the filter requirements
+        String columnHeader = currentFilter.getType().toLowerCase();
+        String filterVal = currentFilter.getValue();
         for (Row row : rows) {
-            String rowVal = row.get(currentFilter.getType().toLowerCase());
-            String filterVal = currentFilter.getValue();
+            // gets the column value associated with the header
+            String columnVal = row.get(columnHeader);
 
-            if (comparison(rowVal, filterVal, currentFilter.getQualifier())) filteredRows.add(row);
+            if (comparison(columnVal, filterVal, currentFilter.getQualifier())) filteredRows.add(row);
         }
 
         // return the new rows list with filters-1 (from the one that was used)
@@ -116,6 +121,7 @@ public class Main {
                 default -> throw new IllegalArgumentException("Invalid Operator: " + operator);
             };
         } catch (NumberFormatException e) {
+            // etc: name > 5
             throw new NumberFormatException("Invalid filter options with operator: " + s1 + " " + operator + " " + s2);
         }
     }
@@ -133,16 +139,14 @@ public class Main {
         FileWriter file = new FileWriter(path, false);
 
         // write CSV header
-        for (int i = 0; i < CSVHeader.length; i++) {
-            file.write(i != CSVHeader.length - 1 ? CSVHeader[i] + ", " : CSVHeader[i]);
+        for (int i = 0; i < csvHeader.length; i++) {
+            file.write(i != csvHeader.length - 1 ? csvHeader[i] + ", " : csvHeader[i] + "\n");
         }
 
         // write rows
         for (Row row : rows) {
-            for (int j = 0; j < CSVHeader.length; j++) {
-
-                file.write( j != CSVHeader.length - 1 ? row.get(CSVHeader[j]) + "," : row.get(CSVHeader[j]) + "\n");
-
+            for (int j = 0; j < csvHeader.length; j++) {
+                file.write( j != csvHeader.length - 1 ? row.get(csvHeader[j]) + "," : row.get(csvHeader[j]) + "\n");
             }
         }
 

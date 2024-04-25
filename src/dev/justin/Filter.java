@@ -1,3 +1,5 @@
+package dev.justin;
+
 public class Filter {
 
     private final String type; // THEME
