@@ -33,7 +33,6 @@ public class Main {
 
     public static List<Row> readCSVFile(String path) throws FileNotFoundException {
         List<Row> rows = new ArrayList<>();
-        String[] firstLine = new String[]{};
 
         Scanner scanner = new Scanner(new File(path));
         boolean isFirstLine = true;
@@ -43,17 +42,16 @@ public class Main {
             String[] row = scanner.nextLine().split(",");
 
             if (isFirstLine) {
-                firstLine = row;
                 csvHeader = row;
                 isFirstLine = false;
                 continue;
             }
 
             // skips the line if it is incorrectly formatted in the CSV file
-            if (row.length != firstLine.length) continue;
+            if (row.length != csvHeader.length) continue;
 
             // creates a Row object from the current row
-            Row currentRow = new Row(firstLine, row);
+            Row currentRow = new Row(csvHeader, row);
 
             rows.add(currentRow);
         }
